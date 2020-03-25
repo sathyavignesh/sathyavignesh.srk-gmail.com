@@ -1,0 +1,46 @@
+int in =8;
+unsigned long time2,time1;
+int l=0,rate=0;
+int i,j,k;
+int temp;
+void setup()
+{
+    Serial.begin(9600);
+}
+
+void loop()
+{   
+  l=0;
+    while(l<5)
+    {
+     if(digitalRead(in))
+     {
+      if(l==0)
+      time1=millis();
+      l++;
+      while(digitalRead(in));
+     }
+    }
+      time2=millis();
+      rate=time2-time1;
+      rate=rate/5;
+      rate=60000/rate;
+
+  
+  //total hb
+  int thb = analogRead(A2);
+  thb = map(thb, 1023, 0, 0, 20);
+  
+  //gsr
+  int gsr = analogRead(A0);
+   gsr = map(gsr,0,1023,0,10);
+   
+  //temperature
+  int sen3 = analogRead(A1);
+  temp = (5.0*sen3*100)/1024.0; 
+  //dumi var
+  int dm = 1;
+  String data =String(rate)+ "," + String(thb)+ "," + String(gsr)+ "," + String(temp)+ "," + String(dm);
+  Serial.println(data);
+  delay(2000);
+  }
